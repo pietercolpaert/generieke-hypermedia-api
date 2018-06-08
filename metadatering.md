@@ -8,7 +8,7 @@ __TODO__
 
 __TODO__
 
-## Algoritme voor herkennen van crud operaties
+## Algoritme voor de metadatering van API's
 
 __TODO__
 
