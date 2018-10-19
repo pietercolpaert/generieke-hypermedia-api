@@ -58,7 +58,7 @@ Allow: GET,PUT,DELETE
 
 ### Hydra
 
-De toegelaten operaties worden meegegeven in de response body via de eigenschap [hydra:operation](http://www.w3.org/ns/hydra/core#operation). Verder kan, waar relevant, de verwachte input worden meegegevens via de eigenschap [hydra:expects](http://www.w3.org/ns/hydra/core#expects).
+De toegelaten operaties worden meegegeven in de response body via de eigenschap [hydra:operation](http://www.w3.org/ns/hydra/core#operation). Verder kan, waar relevant, de verwachte input worden meegegevens via de eigenschap [hydra:expects](http://www.w3.org/ns/hydra/core#expects). Ten slotte kan via de eigenschap [hydra:returns](http://www.w3.org/ns/hydra/core#returns) aangeduid worden welke output teruggegeven wordt. 
 
 ```json
 {
@@ -69,7 +69,8 @@ De toegelaten operaties worden meegegeven in de response body via de eigenschap 
   "operation": [
     {
       "@type": "Operation",
-      "method": "GET"
+      "method": "GET",
+      "returns": "schema:Event"
     },
     {
       "@type": "Operation",
@@ -80,7 +81,7 @@ De toegelaten operaties worden meegegeven in de response body via de eigenschap 
 }
 ```
 
-De informatie die verwacht wordt als input door de API (`hydra:expects`) kan verder gespecifieerd worden door gebruik te maken van de [Shapes Constraint Language (SHACL)](https://www.w3.org/TR/shacl/):
+De informatie die verwacht wordt als input (`hydra:expects`) of output (`hydra:returns`) door de API kan verder gespecifieerd worden door gebruik te maken van de [Shapes Constraint Language (SHACL)](https://www.w3.org/TR/shacl/):
 
 ```json
 {
@@ -93,9 +94,14 @@ De informatie die verwacht wordt als input door de API (`hydra:expects`) kan ver
   "operation": [
     {
       "@type": "Operation",
+      "method": "GET",
+      "returns": "http://example.org/EventShape"
+    },
+    {
+      "@type": "Operation",
       "method": "PUT",
       "expects": {
-        "@id": "schema:Event",
+        "@id": "http://example.org/EventShape",
         "sh:targetClass": "schema:Event",
         "sh:property": [
           {
@@ -122,7 +128,7 @@ Namespace prefix hydra: http://www.w3.org/ns/hydra/core#
 1. Als de ALLOW header van een Resource response een GET, PUT, DELETE, POST, HEAD en/of PATCH methode bevat, voorzie in een generieke afhandeling in lijn met [RFC7231](https://tools.ietf.org/html/rfc7231). 
 2. Anders, als de response header `application/ld+json` als Content-Type bevat, gebruik het [JSON-LD 1.1 processing algoritme](https://json-ld.org/spec/FCGS/json-ld-api/20180607/#expansion-algorithms) om de response om te zetten in zijn geëxpandeerde vorm.
 3. Als de response een object bevat met als attribuut `hydra:operation`, gebruik het corresponderende `hydra:Operation` object om te voorzien in een generieke afhandeling in lijn met [RFC7231](https://tools.ietf.org/html/rfc7231).
-4. Als de `hydra:Operation` een attribuut `hydra:expects` bevat, voer een `GET` operatie uit op de corresponderende resource om de lijst met ondersteunde attributen (`hydra:suppertProperty`) voor een create of update operatie te bekomen. Gebruik deze response om eventueel een dynamisch input formulier op te stellen.
+4. Als de `hydra:Operation` een attribuut `hydra:expects` of `hydra:returns` bevat, voer indien nodig een `GET` operatie uit op de corresponderende resource om de lijst met ondersteunde attributen (`sh:property`) voor een create of update operatie te bekomen. Gebruik deze response om eventueel een dynamisch input formulier op te stellen. Verwijs naar de verwachte vorm (zogenoemde `SHACL shape`) van een applicatie profiel om aan te duiden dat de response hiermee in lijn is. 
 
 ## Herbruikbare library
 
