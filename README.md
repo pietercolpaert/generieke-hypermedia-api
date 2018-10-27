@@ -44,6 +44,7 @@ _\*: RDF/XML staat laag op de voorkeurslijst omdat andere, modernere serialisati
 * [Paginering](paginering.md)
 * [CRUD operaties](crud-operaties.md)
 * [Taal-selectie/ontdekking](taal.md)
+* [Full text search](full-text-search.md)
 
 Een implementatie van deze specificatie is vrij om te kiezen welke bouwblokken relevant zijn voor implementatie. Bijvoorbeeld indien een API geen paginering functionaliteit aanbiedt, hoeft de bijhorende bouwblok niet geïmplementeerd te worden om conform deze specificatie te zijn.
 
